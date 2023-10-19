@@ -13,7 +13,7 @@ class FireBall extends AcGameObject {
         this.speed = speed;
         this.move_length = move_length;
         this.damage = damage;
-        this.eps = 0.1;
+        this.eps = 0.01;
     }
 
     start() {
@@ -47,25 +47,25 @@ class FireBall extends AcGameObject {
         this.render();
     }
 
-        get_dist(x1, y1, x2, y2) {  //获得两点的欧几里得距离
-            let dx = x2 - x1;
-            let dy = y2 - y1;
-            return Math.sqrt(dx * dx + dy * dy);
-        }
+    get_dist(x1, y1, x2, y2) {  //获得两点的欧几里得距离
+        let dx = x2 - x1;
+        let dy = y2 - y1;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 
 
+    attack(player) {
+        let angle = Math.atan2(player.y - this.y, player.x - this.x);
+        player.is_attacked(angle, this.damage);
+        this.destroy();
+    }
 
-        attack(player) {
-            let angle = Math.atan2(player.y - this.y, player.x - this.x);
-            player.is_attacked(angle, this.damage);
-            this.destroy();
-        }
 
-
-        render() {
-            this.ctx.beginPath();
-            this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-            this.ctx.fillStyle = this.color;
-            this.ctx.fill();
-        }
+     render() {
+        let scale = this.playground.scale;
+        this.ctx.beginPath();
+        this.ctx.arc(this.x * scale, this.y * scale, this.radius * scale, 0, Math.PI * 2, false);
+        this.ctx.fillStyle = this.color;
+        this.ctx.fill();
+    }
 }
